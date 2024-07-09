@@ -14,6 +14,7 @@ class ProjectListFrame(ttk.LabelFrame):
         self.project_list.heading("Address", text="Address")
         self.project_list.heading("Owner", text="Owner")
         self.project_list.heading("Phone", text="Phone")
+        self.project_list.heading("Status", text="Status")
         self.project_list.heading("Total Price", text="Total Price ($)")
         self.project_list.bind('<<TreeviewSelect>>', self.on_project_select)
         self.project_list.pack(fill=tk.BOTH, expand=True)
@@ -39,7 +40,7 @@ class ProjectListFrame(ttk.LabelFrame):
     def load_projects(self):
         self.project_list.delete(*self.project_list.get_children())
 
-        projects = database.fetch_query("SELECT id, address, owner, phone, total_price FROM projects")
+        projects = database.fetch_query("SELECT id, address, owner, phone, status, total_price FROM projects")
         for project in projects:
             self.project_list.insert("", tk.END, values=project)
 
@@ -60,7 +61,7 @@ class ProjectListFrame(ttk.LabelFrame):
             self.details_frame.pack_forget()  # Hide details frame if no project is selected
 
     def update_details(self, project_id):
-        project = database.fetch_query("SELECT address, owner, phone, total_price FROM projects WHERE id=?", (project_id,))
+        project = database.fetch_query("SELECT address, owner, phone, status, total_price FROM projects WHERE id=?", (project_id,))
         scopes = database.fetch_query("SELECT scope FROM project_scope WHERE project_id=?", (project_id,))
         progresses = database.fetch_query("SELECT work_done, payment_percentage, payment_value FROM project_progress WHERE project_id=?", (project_id,))
 
@@ -68,7 +69,8 @@ class ProjectListFrame(ttk.LabelFrame):
         details_text += f"Address: {project[0][0]}\n"
         details_text += f"Owner: {project[0][1]}\n"
         details_text += f"Phone: {project[0][2]}\n"
-        details_text += f"Total Price: ${project[0][3]:,.2f}\n\n"
+        details_text += f"Status: {project[0][3]}\n"
+        details_text += f"Total Price: ${project[0][4]:,.2f}\n\n"
         
         details_text += "Scopes:\n"
         for scope in scopes:

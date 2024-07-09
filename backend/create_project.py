@@ -34,6 +34,7 @@ class CreateProjectFrame(ttk.LabelFrame):
         owner = self.owner_entry.get()
         phone = self.phone_entry.get()
         total_price = self.total_price_entry.get()
+        status = "Quote"
 
         if not address or not owner or not phone or not total_price:
             messagebox.showerror("Error", "All fields are required")
@@ -45,8 +46,8 @@ class CreateProjectFrame(ttk.LabelFrame):
             messagebox.showerror("Error", "Total price must be a number")
             return
 
-        query = "INSERT INTO projects (address, owner, phone, total_price) VALUES (?, ?, ?, ?)"
-        parameters = (address, owner, phone, total_price)
+        query = "INSERT INTO projects (address, owner, phone, status, total_price) VALUES (?, ?, ?, ?, ?)"
+        parameters = (address, owner, phone, status, total_price)
         project_id = database.execute_query(query, parameters)
 
         print(project_id)

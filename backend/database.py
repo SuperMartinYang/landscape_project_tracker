@@ -8,6 +8,7 @@ def setup_database():
                     address TEXT NOT NULL,
                     owner TEXT NOT NULL,
                     phone TEXT NOT NULL,
+                    status TEXT,
                     total_price REAL NOT NULL DEFAULT 0)''')
     c.execute('''CREATE TABLE IF NOT EXISTS project_scope (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
