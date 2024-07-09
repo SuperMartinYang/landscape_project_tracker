@@ -41,3 +41,9 @@ class ProjectMetadataDB:
         c = self.conn.cursor()
         c.execute('DELETE FROM project_metadata WHERE id=?', (project_metadata_id,))
         self.conn.commit()
+
+    def read_all(self):
+        c = self.conn.cursor()
+        c.execute('SELECT * FROM project_metadata')
+        rows = c.fetchall()
+        return [ProjectMetadata(*row) for row in rows]

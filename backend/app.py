@@ -56,7 +56,7 @@ def delete_project(project_metadata_id):
 
 @app.route('/projects', methods=['GET'])
 def get_all_projects():
-    projects = project_metadata_db.read_all()  # Assuming you have a method to read all projects
+    projects = project_metadata_db.read_all() 
     return jsonify([project.__dict__ for project in projects])
 
 # project_metadata Scope endpoints
